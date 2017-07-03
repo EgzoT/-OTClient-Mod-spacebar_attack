@@ -58,6 +58,10 @@ function chooseAimFromBattleList()
   end
 
   for i=1,tableCount do
+    if battleListCounter > 1 and g_game.isAttacking() == false then
+      battleListCounter = battleListCounter - 1
+    end
+
     if isNpcOrSafeFight(battleListTable[battleListCounter].creatureId) then
       g_game.attack(g_map.getCreatureById(battleListTable[battleListCounter].creatureId))
       battleListCounter = battleListCounter + 1
