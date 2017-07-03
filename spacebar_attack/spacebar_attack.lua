@@ -48,6 +48,7 @@ function getSortedBattleList()
 end
 
 local battleListCounter = 1
+local lastAttackedMonster = 0
 
 function chooseAimFromBattleList()
   local battleListTable = getSortedBattleList()
@@ -58,12 +59,13 @@ function chooseAimFromBattleList()
   end
 
   for i=1,tableCount do
-    if battleListCounter > 1 and g_game.isAttacking() == false then
+    if battleListCounter > 1 and g_game.isAttacking() == false and lastAttackedMonster ~= battleListTable[battleListCounter - 1].creatureId then
       battleListCounter = battleListCounter - 1
     end
 
     if isNpcOrSafeFight(battleListTable[battleListCounter].creatureId) then
       g_game.attack(g_map.getCreatureById(battleListTable[battleListCounter].creatureId))
+      lastAttackedMonster = battleListTable[battleListCounter].creatureId
       battleListCounter = battleListCounter + 1
       return
     end
